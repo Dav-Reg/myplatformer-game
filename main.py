@@ -69,6 +69,16 @@ def draw(window, background, bg_image, player):
 
     pygame.display.update()
 
+# handles movement of character
+def handle_move(player):
+    keys = pygame.key.get_pressed()
+
+    # have to set player velocity to 0 so it stops moving character
+    player.x_vel = 0
+    if keys[pygame.K_LEFT]:
+        player.move_left(PLAYER_VEL)
+    if keys[pygame.K_RIGHT]:
+        player.move_right(PLAYER_VEL)
 
 def main(window):
     clock = pygame.time.Clock()
@@ -86,6 +96,9 @@ def main(window):
             if event.type == pygame.QUIT:
                 run = False
                 break
+
+        player.loop(FPS)
+        handle_move(player)
         draw(window, background, bg_image, player)
 
     pygame.quit()
