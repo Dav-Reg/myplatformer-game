@@ -30,7 +30,7 @@ def load_sprite_sheets(dir1, dir2, width, height, direction=False):
         sprites = []
         for i in range(sprite_sheet.get_width() // width):
             surface = pygame.Surface((width, height), pygame.SRCALPHA, 32)
-            rect = pygame.rect(i, * width, 0, width, height)
+            rect = pygame.Rect(i * width, 0, width, height)
             surface.blit(sprite_sheet, (0, 0), rect)
             sprites.append(pygame.transform.scale2x(surface))
 
@@ -46,7 +46,7 @@ def load_sprite_sheets(dir1, dir2, width, height, direction=False):
 class Player(pygame.sprite.Sprite):
     COLOR = (255, 0, 0)
     GRAVITY = 1
-
+    SPRITES = load_sprite_sheets("MainCharacters", "MaskDude", 32, 32, True)
 
     def __init__(self, x, y, width, height):
         self.rect = pygame.Rect(x, y, width, height)
@@ -83,7 +83,8 @@ class Player(pygame.sprite.Sprite):
         self.fall_count += 1
 
     def draw(self, win):
-        pygame.draw.rect(win, self.COLOR, self.rect)
+        self.sprite = self.SPRITES["idle_" + self.direction][0]
+        win.blit(self.sprite, (self.rect.x, self.rect.y))
 
 def get_background(name):
     image = pygame.image.load(join("assets", "Background", name))
