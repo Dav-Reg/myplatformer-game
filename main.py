@@ -90,7 +90,7 @@ class Player(pygame.sprite.Sprite):
 
     def loop(self, fps):
         # implements gravity so the longer the character falls the faster the character falls
-        # self.y_vel += min(1, (self.fall_count / fps) * self.GRAVITY)
+        self.y_vel += min(1, (self.fall_count / fps) * self.GRAVITY)
         self.move(self.x_vel, self.y_vel)
 
         self.fall_count += 1
@@ -176,7 +176,7 @@ def main(window):
 
 
     player = Player(100, 100, 50, 50)
-    blocks = [Block(0, HEIGHT - block_size, block_size)]
+    floor = [Block(i * block_size, HEIGHT - block_size, block_size) for i in range(-WIDTH // block_size, (WIDTH * 2) // block_size)]
 
     # Makes sure everything runs the same speed
     run = True
@@ -191,7 +191,7 @@ def main(window):
 
         player.loop(FPS)
         handle_move(player)
-        draw(window, background, bg_image, player, blocks)
+        draw(window, background, bg_image, player, floor)
 
     pygame.quit()
     quit()
